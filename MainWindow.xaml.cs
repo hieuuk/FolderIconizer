@@ -48,16 +48,31 @@ namespace FolderIconizer
                 return;
             }
 
-            // Iterate through each subfolder in the parent folder
-            foreach (var folderPath in Directory.GetDirectories(parentFolderPath))
+            if(cbParentFolder.IsChecked == true)
             {
-                string iconFilePath = System.IO.Path.Combine(folderPath, "folder.ico");
+                string iconFilePath = System.IO.Path.Combine(parentFolderPath, "folder.ico");
 
                 // Check if folder.icon exists
                 if (File.Exists(iconFilePath))
                 {
-                    WriteLog("Updating folder icon for " + folderPath);
-                    FolderIconUpdater.ChangeFolderIcon(folderPath, iconFilePath);
+                    WriteLog("Updating folder icon for " + parentFolderPath);
+                    FolderIconUpdater.ChangeFolderIcon(parentFolderPath, iconFilePath);
+                }
+            }
+
+            if (cbSubFolders.IsChecked == true)
+            {
+                // Iterate through each subfolder in the parent folder
+                foreach (var folderPath in Directory.GetDirectories(parentFolderPath))
+                {
+                    string iconFilePath = System.IO.Path.Combine(folderPath, "folder.ico");
+
+                    // Check if folder.icon exists
+                    if (File.Exists(iconFilePath))
+                    {
+                        WriteLog("Updating folder icon for " + folderPath);
+                        FolderIconUpdater.ChangeFolderIcon(folderPath, iconFilePath);
+                    }
                 }
             }
 
